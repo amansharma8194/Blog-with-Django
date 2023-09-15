@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}View Blog{% endblock title %}
+{% block body %}
+<div class="container d-flex justify-content-between">
+    <h3>{{userData.first_name}} {{userData.last_name}}</h3>
+    <h3>{{userData.username}}</h3>
+</div>
+<div class="col-8 d-flex flex-column mx-auto my-3">
+    {% for obj in blogData %}
+        <div class="card mb-4 p-2" id="blog">
+            <div class="d-flex justify-content-between">
+                <div>
+                <h4 class="m-0 p-0" style="min-width: 100%">{{obj.title|truncatechars:40}}</h4>
+                <a href="{% url 'blog_page' obj.id %}">view details</a>
+                </div>
+                <span>{{obj.created_at}}</span>
+            </div>
+        </div>
+    {% endfor %}
+  </div>
+<div class="container mt-5 d-flex justify-content-between"> 
+    <a href="{% url 'home_page' %}" class="btn btn-danger">Go back</a>
+</div>
+{% endblock body %}

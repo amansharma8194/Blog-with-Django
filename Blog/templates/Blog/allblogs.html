@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}All Blogs{% endblock title %}
+{% block body %}
+<div class="container d-flex flex-column justify-content-center align-items-center">
+  <h1 class="text-center mb-3">Welcome to our Blogs page</h1>
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li>{{message}}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="col-8">
+    {% for obj in data %}
+    <div class="card mb-4 p-2" id="blog">
+      <div class="d-flex justify-content-between">
+        <div>
+          <h4 class="m-0 p-0" style="max-width: 100%">{{obj.title|truncatechars:40}}</h4>
+          <a href="{% url 'blog_page' obj.id %}">view details</a>
+        </div>
+        <span>{{obj.created_at}}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+        {% if data.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{data.previous_page_number}}">Previous</a></li>
+        {% endif %}
+        {% for page in data.paginator.page_range %}
+                <li class="page-item {% if page == data.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                </li>
+        {% endfor %}
+        {% if data.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{data.next_page_number}}">Next</a></li>
+        {% endif %}
+    </ul>
+  </nav>
+</div>
+{% endblock body %}

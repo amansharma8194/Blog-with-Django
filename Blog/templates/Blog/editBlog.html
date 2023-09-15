@@ -1,0 +1,27 @@
+{% extends 'base.html' %} 
+{% block title %}View Blog{% endblock title %}
+{% block body %}
+<div class="container">
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{message}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+  <div class="m-2 p-0">
+    <form method="post" class="col-6 card p-3">
+      {% csrf_token %} {% for field in form %}
+      <div class="mb-5">
+        <label class="form-label" for="{{ field.id_for_label }}"
+          >{{ field.label }}</label
+        >
+        {{ field }}
+      </div>
+      {% endfor %}
+      <a href="{% url 'home_page' %}" class="btn btn-secondary mb-2">Go back</a>
+      <button type="submit" class="btn btn-success">Update Blog</button>
+    </form>
+  </div>
+</div>
+{% endblock body %}

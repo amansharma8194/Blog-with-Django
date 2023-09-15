@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+{% block body %}
+<div class="container">
+    <h1 class="text-center mb-3">Welcome to our Blogs page</h1>
+    {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                <li>{{message}}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+    <div class="row d-flex justify-content-between">
+        <div class="col-5 m-2 p-0">
+            <form method='post' class="card p-3">
+            {% if request.user.is_authenticated %}
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-success">Add Blog</button>
+        {% else %}
+        <h4>Login to add blogs</h4>
+        {% endif %}
+
+            </form>
+        </div>
+        <div class="col-5">
+            <h2 class="text-center">Most recent blogs</h2>
+            {% for obj in data %}
+            <div class="card mb-4 p-2" id="blog">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="m-0 p-0" style="max-width: 100%;">{{obj.title|truncatechars:20}}</h4>
+                        <a href="{% url 'blog_page' obj.id %}">view details</a>
+                    </div>
+                    <span class="flex-nowrap">{{obj.created_at}}</span>
+                </div>
+            </div>            
+            {% endfor %}
+        </div> 
+    </div>
+</div>
+{% endblock body %}
